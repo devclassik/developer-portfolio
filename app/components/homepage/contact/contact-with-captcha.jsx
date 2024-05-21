@@ -55,10 +55,21 @@ function ContactWithCaptcha() {
     const serviceID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
     const templateID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
     const options = { publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY };
+    const Base_URL = process.env.NEXT_PUBLIC_EMAIL;
+
 
     try {
-      const res = await emailjs.send(serviceID, templateID, input, options);
+      // const res = await emailjs.send(serviceID, templateID, input, options);
+      toast.loading("please wait...");
+      const res = await axios.post(`${Base_URL}/sendMail`, {
+        name: input.name,
+        email: input.email,
+        message: input.message,
+        to: "alomajaopemipo8@gmail.com", // Reset 'to' to default value
+        subject: "Opemipo Portfolio", // Reset 'subject' to default value
+      });
 
+      toast.dismiss();
       if (res.status === 200) {
         toast.success('Message sent successfully!');
         setInput({
@@ -66,9 +77,14 @@ function ContactWithCaptcha() {
           email: '',
           message: '',
         });
+      }else {
+        // console.error("Failed to send email:", res);
+        toast.error("Oops, an error occurred while sending the message.");
       };
     } catch (error) {
-      toast.error(error?.text || error);
+      // toast.error(error?.text || error);
+      toast.error("Oops, unknown error");
+
     };
   };
 
