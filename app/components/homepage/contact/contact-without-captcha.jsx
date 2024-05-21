@@ -37,10 +37,12 @@ function ContactWithoutCaptcha() {
     const Base_URL = process.env.NEXT_PUBLIC_EMAIL;
     const Base_URL1 = process.env.NEXT_PUBLIC_EMAIL_LOCAL;
 
+    // console.log('url', Base_URL1);
+
     try {
       // const res = await emailjs.send(serviceID, templateID, input, options);
       toast.loading("please wait...");
-      const res = await axios.post(`${Base_URL1}/sendMail`, {
+      const res = await axios.post(`${Base_URL}/sendMail`, {
         name: input.name,
         email: input.email,
         message: input.message,
@@ -62,6 +64,7 @@ function ContactWithoutCaptcha() {
         toast.error("Oops, an error occurred while sending the message.");
       }
     } catch (error) {
+      toast.dismiss();
       toast.error("Oops, unknown error");
       // toast.error(error?.text || error);
     }
