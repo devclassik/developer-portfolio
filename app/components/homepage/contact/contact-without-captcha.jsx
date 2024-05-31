@@ -42,7 +42,7 @@ function ContactWithoutCaptcha() {
     try {
       // const res = await emailjs.send(serviceID, templateID, input, options);
       toast.loading("please wait...");
-      const res = await axios.post(`${Base_URL}/sendMail`, {
+      const res = await axios.post(`${Base_URL}/mail`, {
         name: input.name,
         email: input.email,
         message: input.message,
